@@ -7,3 +7,4 @@ protobuf==5.28.3
 python-dotenv==1.0.1
 twilio==9.3.6
 google-generativeai==0.8.3
+gunicorn
