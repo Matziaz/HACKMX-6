@@ -120,6 +120,17 @@ def predict():
             except Exception as e:
                 print(f"Error sending SMS: {str(e)}")
                 return jsonify({'error': f"Error sending SMS: {str(e)}"}), 500
+        else:
+            try:
+                sms = client.messages.create(
+                    body=message,
+                    from_=TWILIO_PHONE_NUMBER,
+                    to=phone_number
+                )
+                print(f"Message sent successfully. SID: {sms.sid}")
+            except Exception as e:
+                print(f"Error sending SMS: {str(e)}")
+                return jsonify({'error': f"Error sending SMS: {str(e)}"}), 500
 
         return jsonify({
             'prediction': result,
