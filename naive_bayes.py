@@ -127,3 +127,12 @@ Results = pd.DataFrame(data, index=["SVC"])
 # Print accuracy
 print("Train Accuracy: ", train_accuracy)
 print("Test Accuracy: ", test_accuracy)
+
+import joblib  # Add this line at the beginning of the script
+
+# Save the model and the vectorizer
+joblib.dump(model, 'multinomial_nb_model.pkl')
+joblib.dump(tfidf, 'tfidf_vectorizer.pkl')
+
+print("Model and vectorizer saved successfully.")
+
