@@ -5,6 +5,15 @@ import re
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+import google.generativeai as genai
+import os
+from dotenv import load_dotenv
+
+load_dotenv('apikey.env')
+
+API_KEY = os.getenv('API_KEY')
+
+genai.configure(api_key=API_KEY)
 
 # Load the trained model and vectorizer
 model = joblib.load('multinomial_nb_model.pkl')
@@ -33,6 +42,9 @@ def lemmatize_word(text):
     lemmas = [lemmatizer.lemmatize(word, pos='v') for word in text]
     return lemmas
 
+
+    
+
 # Define a route for the API
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -57,10 +69,22 @@ def predict():
 
     # Map the prediction to the original labels (0: ham, 1: spam)
     result = 'spam' if prediction[0] == 1 else 'ham'
+    
+    if result == 'spam':
+        gemini = genai.GenerativeModel("gemini-1.5-flash")
+        response = gemini.generate_content(f"Why is this text '{message}' considered spam? Explain as friendly as possible to an elder adult. Also make it short.")
+        
+        # Extract plain text using regex
+        text_response = re.sub(r'<[^>]+>', '', response.text)
+        
+        # Remove any remaining unwanted characters
+        text_response = text_response.replace('\n', ' ').replace('**', '').strip()
 
-    # Return the prediction as JSON
+        return jsonify({'prediction': result, 'explanation': text_response})
+    
     return jsonify({'prediction': result})
+    
 
 # Run the Flask application
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) 
