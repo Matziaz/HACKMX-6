@@ -6,6 +6,10 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
+nltk.download('punkt_tab')
+nltk.download('stopwords')
+nltk.download('wordnet')
+
 # Load the trained model and vectorizer
 model = joblib.load('multinomial_nb_model.pkl')
 tfidf = joblib.load('tfidf_vectorizer.pkl')
@@ -63,4 +67,4 @@ def predict():
 
 # Run the Flask application
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
