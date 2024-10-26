@@ -65,7 +65,6 @@ def lemmatize_word(text):
 
     
 
-# Define a route for the API
 @app.route('/predict', methods=['POST'])
 def predict():
     """
