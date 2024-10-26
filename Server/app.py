@@ -112,7 +112,7 @@ def predict():
             
             try:
                 sms = client.messages.create(
-                    body=text_response,
+                    body="You've received this message: {message}.\n\n{text_response}".format(message=message, text_response=text_response),
                     from_=TWILIO_PHONE_NUMBER,
                     to=phone_number
                 )
