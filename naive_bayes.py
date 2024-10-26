@@ -5,7 +5,6 @@ import pandas as pd
 import re
 import nltk
 from nltk.corpus import stopwords
-from nltk.stem.porter import PorterStemmer
 from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
@@ -16,8 +15,12 @@ from sklearn.model_selection import cross_val_score
 from matplotlib.colors import ListedColormap
 from sklearn.metrics import precision_score, recall_score, confusion_matrix, classification_report, accuracy_score, f1_score
 from sklearn import metrics
+import joblib  # Add this line at the beginning of the script
 
-# nltk.download('all')
+nltk.download('stopwords')
+nltk.download('WordNetLemmatizer')
+nltk.download('punkt')
+nltk.download('wordnet')
 
 # Loading data
 data = pd.read_csv("spam.csv", encoding='ISO-8859-1')
@@ -127,8 +130,6 @@ Results = pd.DataFrame(data, index=["SVC"])
 # Print accuracy
 print("Train Accuracy: ", train_accuracy)
 print("Test Accuracy: ", test_accuracy)
-
-import joblib  # Add this line at the beginning of the script
 
 # Save the model and the vectorizer
 joblib.dump(model, 'multinomial_nb_model.pkl')
